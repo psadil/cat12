@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# this script should be run with sudo
+singularity build cat12.sif Singularity
