@@ -21,3 +21,11 @@ singularity run --cleanenv cat12.sif -b <template> <data>
 ```
 
 Use the `--cleanenv` flag may not be necessary, depending on your host. When running with host Ubuntu 20.04, there were environment variables associated with Java that interfered with MATLAB. See the Singularity documentation on [environment variables](https://sylabs.io/guides/3.8/user-guide/environment_and_metadata.html?highlight=cleanenv#environment-overview)
+
+## Prebuilt container
+
+A verison of the container has been prebuilt and shared on <https://cloud.sylabs.io>. To use it, replace the container definition with `library://psadil/default/cat12`, e.g.,
+
+```bash
+singularity run --cleanenv library://psadil/default/cat12 -b <template> <data>
+```
