@@ -29,3 +29,5 @@ A verison of the container has been prebuilt and shared on <https://cloud.sylabs
 ```bash
 singularity run --cleanenv library://psadil/default/cat12 -b <template> <data>
 ```
+
+That is, the container doesn't need to be downloaded manually; singularity should be able to recognize the location of `library://psadil/default/cat12`, download it automatically, and then cache the file.
