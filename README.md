@@ -27,7 +27,7 @@ Use the `--cleanenv` flag may not be necessary, depending on your host. When run
 A verison of the container has been prebuilt and shared on <https://cloud.sylabs.io>. To use it, replace the container definition with `library://psadil/default/cat12`, e.g.,
 
 ```bash
-singularity run --cleanenv library://psadil/default/cat12 -b <template> <data>
+singularity run --cleanenv library://psadil/default/cat12:sha256.008fc10d527c3f797085bb10c7ebbc3492a529f75a9145511906bb4b4a15c1de -b <template> <data>
 ```
 
 That is, the container doesn't need to be downloaded manually; singularity should be able to recognize the location of `library://psadil/default/cat12`, download it automatically, and then cache the file.
