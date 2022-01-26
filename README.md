@@ -6,12 +6,15 @@ To build, run `build_singularity` as root e.g.,
 sudo ./build_singularity
 ```
 
-Note that the build expects to find `./code/main`, so this command should be run from the root directory of the github repo.
+Note that the build expects to find a few files:
+- `./code/main` 
+- ./CAT12.zip (zipped standalone copy of CAT12, https://www.jiscmail.ac.uk/cgi-bin/wa-jisc.exe?A2=ind2102&L=SPM&P=R8713)
+- ./MCR_R2017b_glnxa64_installer.zip (e.g., `wget https://ssd.mathworks.com/supportfiles/downloads/R2017b/deployment_files/R2017b/installers/glnxa64/MCR_R2017b_glnxa64_installer.zip`)
 
 The script `run_a2cps_segment` provides a minimal wrapper around the container.
 
 ```bash
-./run_a2cps_segment mris/NS_northshore/bids/NS043021PVP/sub-043021/ses-PVP/anat/sub-043021_ses-PVP_T1w.nii.gz
+./run_a2cps_segment T1w.nii.gz
 ```
 
 To run cat_standalone with a different template, `<template>`, on T1w image, `<data>`, try
@@ -24,10 +27,8 @@ Use the `--cleanenv` flag may not be necessary, depending on your host. When run
 
 ## Prebuilt container
 
-A verison of the container has been prebuilt and shared on <https://cloud.sylabs.io>. To use it, replace the container definition with `library://psadil/default/cat12`, e.g.,
+A verison of the container has been prebuilt and shared on <https://cloud.sylabs.io>. To use it, replace the container definition with `library://psadil/default/cat`, e. g.,
 
 ```bash
-singularity run --cleanenv library://psadil/default/cat12:sha256.008fc10d527c3f797085bb10c7ebbc3492a529f75a9145511906bb4b4a15c1de -b <template> <data>
+singularity run --cleanenv library://psadil/default/cat:0.0.1 -b <template> <data>
 ```
-
-That is, the container doesn't need to be downloaded manually; singularity should be able to recognize the location of `library://psadil/default/cat12`, download it automatically, and then cache the file.
