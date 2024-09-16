@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# example use:
-# ./run_a2cps_segment mris/NS_northshore/bids/NS043021PVP/sub-043021/ses-PVP/anat/sub-043021_ses-PVP_T1w.nii.gz 6
-
-# note use of --cleanenv
-singularity run --cleanenv cat12.sif -b code/a2cps_segment.m "$1" -a1 "$2"
