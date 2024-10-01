@@ -1,6 +1,6 @@
 function make_standalone()
 
-outdir = '../standalone';
+outdir = './standalone';
 gateway = 'spm_standalone.m';
 contentsver = '';
 
@@ -87,9 +87,8 @@ mcc('-m', '-C', '-v',...
     gateway);
 
 
-% gateway_path = which(gateway);
-% unclear why, but the command below does not generate a ctf file
-% res = compiler.build.standaloneApplication(gateway_path, "AdditionalFiles", spm('Dir'), "OutputDir",outdir, "Verbose",true);
+%gateway_path = which(gateway);
+%res = compiler.build.standaloneApplication(gateway_path, "AdditionalFiles", spm('Dir'), "OutputDir",outdir, "Verbose",true);
 
 compiler.package.docker(...
     [{fullfile(outdir, 'spm12')}; {fullfile(outdir, 'spm12.ctf')}], ...
@@ -98,3 +97,7 @@ compiler.package.docker(...
     "DockerContext", outdir, ...
     "ExecuteDockerBuild", 'off', ...
     "EntryPoint", 'spm12')
+
+%compiler.package.docker(...
+%   res, ...
+%    "ImageName","cat12")

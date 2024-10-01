@@ -3,9 +3,10 @@
 # Sample docker build command:
 # docker build -f "Dockerfile" -t cat12:12.9.0 "."
 
-FROM matlabruntime/r2024a/release/update6/f01dc2422104000000
+FROM matlabruntime/r2024b/release/update0/f016e1211002000000
 
-COPY ./applicationFilesForMATLABCompiler/spm12 ./applicationFilesForMATLABCompiler/spm12.ctf /opt/spm/
+COPY --chmod=555 ./applicationFilesForMATLABCompiler/spm12 ./applicationFilesForMATLABCompiler/spm12.ctf /opt/spm/
+ENV MCR_INHIBIT_CTF_LOCK=1
 RUN /opt/spm/spm12 --version
 # RUN chmod -R a+rX /usr/bin/mlrtapp/*
 
