@@ -1,5 +1,7 @@
 # cat12
 
+Latest docker tag: psadil/cat12:12.9-1 (only one with these options)
+
 ## Preparation
 
 - Install MATLAB R2024b
