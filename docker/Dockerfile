@@ -1,8 +1,13 @@
+# Dockerfile for image: psadil/cat12
+# 
+# Sample docker build command:
+# docker build -f "Dockerfile" -t psadil/cat12 "."
+
 FROM matlabruntime/r2024b/release/update8/f00660211002000000
 
 RUN apt-get update && apt-get upgrade -y
 
-COPY docker/applicationFilesForMATLABCompiler /usr/bin/mlrtapp
+COPY ./applicationFilesForMATLABCompiler /usr/bin/mlrtapp
 RUN chmod -R a+rX /usr/bin/mlrtapp/*
 
 # AdditionalPackages
@@ -22,5 +27,3 @@ RUN /usr/bin/mlrtapp/spm12 --version
 RUN if ["$(getent passwd appuser | cut -d: -f1)" = ""] ; then useradd -ms /bin/bash appuser ; fi
 USER appuser
 
-ENTRYPOINT ["xvfb-run", "-a", "/usr/bin/mlrtapp/spm12"]
-CMD ["-h"]

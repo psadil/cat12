@@ -1,0 +1,21 @@
+
+Docker Context Location:
+
+/home/psadil/Desktop/cat12/docker
+
+Sample Docker Build Commands:
+
+docker build -f "/home/psadil/Desktop/cat12/docker/matlabruntimebase/Dockerfile.deps" -t matlabruntimebase/r2024b/release/update8 "/home/psadil/Desktop/cat12/docker/matlabruntimebase"
+docker build -f "/home/psadil/Desktop/cat12/docker/matlabruntime/Dockerfile.runtime" -t matlabruntime/r2024b/release/update8/f00660211002000000 "/home/psadil/Desktop/cat12/docker/matlabruntime"
+docker build -f "/home/psadil/Desktop/cat12/docker/Dockerfile" -t psadil/cat12 "/home/psadil/Desktop/cat12/docker"
+
+Application Files Are Saved In:
+
+/usr/bin/mlrtapp
+
+Sample Interactive Docker Run Command:
+
+docker run --rm -ti -e "DISPLAY=:0" -v '/tmp/.X11-unix':'/tmp/.X11-unix' psadil/cat12
+
+Execute "xhost +" on the host machine to view container graphics.
+

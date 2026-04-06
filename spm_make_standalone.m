@@ -1,8 +1,50 @@
-function make_standalone()
+function spm_make_standalone(outdir, gateway, contentsver)
+% Compile SPM as a standalone executable using the MATLAB Compiler
+%   https://www.mathworks.com/products/compiler.html
+%
+% This will generate a standalone application, which can be run outside
+% MATLAB, and therefore does not require a MATLAB licence.
+%
+% On Windows:
+%   spm12.exe <modality>
+%   spm12.exe batch <batch.m(at)>
+%
+% On Linux/Mac:
+%   ./run_spm12.sh <MCRroot> <modality>
+%   ./run_spm12.sh <MCRroot> batch <batch.m(at)>
+%
+% The first command starts SPM in interactive mode with GUI. The second
+% executes a batch file or starts the Batch Editor if none is provided.
+%
+% Full list of options is accessible from:
+%   ./run_spm12.sh <MCRroot> --help
+%
+% When deployed, compiled applications will require the MATLAB Runtime:
+%   https://www.mathworks.com/products/compiler/matlab-runtime.html
+%
+% See spm_standalone.m and https://en.wikibooks.org/wiki/SPM/Standalone
+%__________________________________________________________________________
+% Copyright (C) 2010-2019 Wellcome Trust Centre for Neuroimaging
 
-outdir = './standalone';
-gateway = 'spm_standalone.m';
-contentsver = '';
+% Guillaume Flandin
+% $Id: spm_make_standalone.m 7534 2019-02-20 17:09:45Z guillaume $
+
+
+%-Check startup.m
+%--------------------------------------------------------------------------
+if exist('startup','file')
+    warning('A startup.m has been detected in %s.\n',...
+        fileparts(which('startup')));
+end
+
+%-Input arguments
+%--------------------------------------------------------------------------
+if ~nargin
+    outdir = fullfile(spm('Dir'),'..','standalone');
+    if ~exist(outdir,'dir'), mkdir(outdir); end
+end
+if nargin < 2 || isempty(gateway), gateway = 'spm_standalone.m'; end
+if nargin < 3, contentsver = ''; end
 
 %==========================================================================
 %-Static listing of SPM toolboxes
@@ -74,30 +116,23 @@ end
 %==========================================================================
 % Nopts = {'-p',fullfile(matlabroot,'toolbox','signal')};
 % if ~exist(Nopts{2},'dir'), Nopts = {}; end
+tbxs = {'signal', 'stats', 'images', 'database', 'symbolic', 'curvefit', 'econ', 'shared', 'vision'};
+Nopts = {};
+for i=1:numel(tbxs)
+    d = fullfile(matlabroot,'toolbox',tbxs{i});
+    if exist(d,'dir')
+        Nopts = [Nopts {'-p'} {d}];
+    end
+end
+
 Ropts = {'-R','-singleCompThread'} ;
-% Ropts = {};
 if ~ismac && spm_check_version('matlab','8.4') >= 0
     Ropts = [Ropts, {'-R','-softwareopengl'}];
 end
 mcc('-m', '-C', '-v',...
     '-o',lower(spm('Ver')),...
     '-d',outdir,...
+    '-N',Nopts{:},...
     Ropts{:},...
     '-a',spm('Dir'),...
     gateway);
-
-
-%gateway_path = which(gateway);
-%res = compiler.build.standaloneApplication(gateway_path, "AdditionalFiles", spm('Dir'), "OutputDir",outdir, "Verbose",true);
-
-compiler.package.docker(...
-    [{fullfile(outdir, 'spm12')}; {fullfile(outdir, 'spm12.ctf')}], ...
-    fullfile(outdir, 'requiredMCRProducts.txt'), ...
-    "ImageName","cat12",...
-    "DockerContext", outdir, ...
-    "ExecuteDockerBuild", 'off', ...
-    "EntryPoint", 'spm12')
-
-%compiler.package.docker(...
-%   res, ...
-%    "ImageName","cat12")

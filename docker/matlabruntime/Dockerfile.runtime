@@ -1,9 +1,9 @@
-# Dockerfile for image: matlabruntime/r2024b/release/update0/f016e1211002000000
+# Dockerfile for image: matlabruntime/r2024b/release/update8/f00660211002000000
 # 
 # Sample docker build command:
-# docker build -f "Dockerfile.runtime" -t matlabruntime/r2024b/release/update0/f016e1211002000000 "."
+# docker build -f "Dockerfile.runtime" -t matlabruntime/r2024b/release/update8/f00660211002000000 "."
 
-FROM containers.mathworks.com/matlab-runtime-utils/matlab-runtime-installer:r2024b AS installer
+FROM containers.mathworks.com/matlab-runtime-utils/matlab-runtime-installer:r2024b-update-8 AS installer
 LABEL "mathworks.matlab.runtime.cleanup"="true"
 
 ENV EXTRACTEDDIR="/opt/matlabruntime/unzippedinstaller"
@@ -17,13 +17,10 @@ RUN printf "product.MATLAB Runtime - Core\n" >> ./installInputs.txt
 RUN printf "product.MATLAB Runtime - Graphics\n" >> ./installInputs.txt
 RUN printf "product.MATLAB Runtime - Non Interactive MATLAB\n" >> ./installInputs.txt
 RUN printf "product.MATLAB Runtime - Numerics\n" >> ./installInputs.txt
-RUN printf "product.MATLAB Runtime - Control System Toolbox Addin\n" >> ./installInputs.txt
 RUN printf "product.MATLAB Runtime - Optimization Toolbox Addin\n" >> ./installInputs.txt
 RUN printf "product.MATLAB Runtime - Signal Processing Toolbox Addin\n" >> ./installInputs.txt
-RUN printf "product.MATLAB Runtime - Deep Learning Toolbox Addin\n" >> ./installInputs.txt
 RUN printf "product.MATLAB Runtime - Image Processing Toolbox Addin\n" >> ./installInputs.txt
 RUN printf "product.MATLAB Runtime - Statistics and Machine Learning Toolbox Addin\n" >> ./installInputs.txt
-RUN printf "product.MATLAB Runtime - Partial Differential Equation Toolbox Addin\n" >> ./installInputs.txt
 RUN printf "product.MATLAB Runtime - Database Toolbox Addin\n" >> ./installInputs.txt
 RUN printf "product.MATLAB Runtime - Curve Fitting Toolbox Addin\n" >> ./installInputs.txt
 RUN printf "product.MATLAB Runtime - Parallel Computing Toolbox Cluster Addin\n" >> ./installInputs.txt
@@ -32,7 +29,7 @@ RUN printf "product.MATLAB Runtime - Econometrics Toolbox Addin\n" >> ./installI
 # Run the installer
 RUN ./install -bat true -inputFile ./installInputs.txt
 
-FROM matlabruntimebase/r2024b/release/update0
+FROM matlabruntimebase/r2024b/release/update8
 LABEL "mathworks.matlab.runtime.cleanup"="false"
 
 ENV TZ="Etc/UTC"
